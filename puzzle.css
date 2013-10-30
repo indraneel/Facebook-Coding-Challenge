@@ -26,9 +26,12 @@ margin-bottom: 50px;
 }
 
 .wrapper > .timestamps {
+    margin-left: 0;
     list-style:none;
+    position:absolute;
     float: left;
-    width: 10%;
+    //width: 10%;
+    margin-left: 10px;
     height: 100%;
     margin-top: 0px;
     text-align: right;
@@ -45,12 +48,13 @@ margin-bottom: 50px;
 }
 .wrapper > .calendar {
     height: 100%;
-    float:right; 
-    position: relative;
+    //float:right; 
+    margin-left:120px;
+    position: absolute;
     background: #E9E9E9;
     width: 600px;
     padding: 0px 10px;
-    margin-right: 13%;
+    //margin-right: 13%;
     /*-moz-box-shadow:
         inset 5px 0 5px -5px #333,
         inset -5px 0 5px -5px #333;
