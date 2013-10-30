@@ -1,6 +1,8 @@
 body {
     font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+    font-size: 10px;
 }
+
 
 
 .header {
@@ -29,15 +31,26 @@ margin-bottom: 50px;
     width: 10%;
     height: 100%;
     margin-top: 0px;
+    text-align: right;
 }
 
+.wrapper > .timestamps > li {
+    height: 29.5px; 
+    color: grey;
+}
+
+.wrapper > .timestamps > li > .emphasis {
+    font-size: 13px;
+    color: #333;
+}
 .wrapper > .calendar {
     height: 100%;
     float:right; 
     position: relative;
-    background: #f7f7f7;
+    background: #E9E9E9;
     width: 600px;
     padding: 0px 10px;
+    margin-right: 13%;
     /*-moz-box-shadow:
         inset 5px 0 5px -5px #333,
         inset -5px 0 5px -5px #333;
@@ -58,12 +71,20 @@ margin-bottom: 50px;
 .wrapper > .calendar > .event-container > .event {
     background: #FFFFFF;
     //box-shadow: inset 0 0 0 5px rgba(0, 255, 0, 0.5);
-
+    height: 59px;
+    margin-bottom: 5px;
     box-shadow: 5px 0 0px #3b5998 inset;
     -webkit-box-shadow: 5px 0 0px #3b5998 inset;
     -moz-box-shadow: 5px 0 0px #3b5998 inset;
 }
 
+.wrapper > .calendar > .event-container > .event > .full {
+    width: 100%;
+}
+
+.wrapper > .calendar > .event-container > .event > .split {
+    width: 50%;
+}
 
 .wrapper > .calendar > .event-container > .event > .event-contents {
     padding: 10px 10px;
