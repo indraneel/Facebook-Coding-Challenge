@@ -1,0 +1,15 @@
+body {
+    font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+}
+
+
+.header {
+    background-color: #3b5998;
+    color: #FFFFFF;
+    font-weight: bold;
+    margin-top: -10px;
+    padding: 8px;
+    border-radius: 3px;
+    letter-spacing: -1px;
+    font-size: 20px;
+}
