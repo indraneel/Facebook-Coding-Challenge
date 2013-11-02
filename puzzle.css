@@ -19,13 +19,13 @@ body {
 
 .wrapper {
     margin: 40px 10px;
-margin-bottom: 50px;
+    margin-bottom: 50px;
     max-width: 70%; 
     max-height: 720px;
     height: 720px;
 }
 
-.wrapper > .timestamps {
+.wrapper .timestamps {
     margin-left: 0;
     list-style:none;
     position:absolute;
@@ -37,17 +37,16 @@ margin-bottom: 50px;
     text-align: right;
 }
 
-.wrapper > .timestamps > li {
-    height: 29px; 
+.wrapper .timestamps li{
+    height: 30px; 
     color: grey;
-
 }
 
-.wrapper > .timestamps > li > .emphasis {
+.wrapper .timestamps li .emphasis {
     font-size: 13px;
     color: #333;
 }
-.wrapper > .calendar {
+.wrapper .calendar {
     height: 720px;
     //float:right; 
     margin-left:120px;
@@ -66,34 +65,34 @@ margin-bottom: 50px;
         
 }
 
-.wrapper > .calendar > .event-container {
+.wrapper .calendar .calendar-container {
     margin: 0 auto;
     width: 95%;
     padding: 0px 10px;
 }
 
-.wrapper > .calendar > .event-container > .event {
+.wrapper .calendar .event {
     background: #FFFFFF;
     border-style: solid solid solid none;
     border-width: 1px;
     border-color: #D8D8D8;
     //box-shadow: inset 0 0 0 5px rgba(0, 255, 0, 0.5);
     height: 49px;
-    margin-top: 5px;
-    margin-bottom: 10px;
+    margin-top: 4px;
+    margin-bottom: 9px;
     box-shadow: 5px 0 0px #3b5998 inset;
     -webkit-box-shadow: 5px 0 0px #3b5998 inset;
     -moz-box-shadow: 5px 0 0px #3b5998 inset;
 }
 
-.wrapper > .calendar > .event-container > .event > .full {
+.wrapper .calendar .event.full {
     width: 100%;
 }
 
-.wrapper > .calendar > .event-container > .event > .split {
+.wrapper .calendar .event.split {
     width: 50%;
 }
 
-.wrapper > .calendar > .event-container > .event > .event-contents {
+.wrapper .calendar .event .event-contents {
     padding: 10px 10px;
 }
