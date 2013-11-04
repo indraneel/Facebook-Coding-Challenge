@@ -5,44 +5,46 @@ var Calendar = Calendar || function () {
      * point from the start time to 
      * the unique ID of the event
      */
-    var invertedIndex = {};
+    var dateStore = {};
 
-    var resize(){
-
-    }
-
-    var createDiv(e) {
-	
-	for (var key in this.eventCounter) {
-	    if (this.eventCounter.hasOwnProperty(key)) {
-		var obj = this.eventCounter[key];
-		for (var prop in obj) {
-		    if (obj.hasOwnProperty(prop)) {
-			console.log(obj[prop]);
-		    }
+    function createDiv(e) {
+	console.log(dateStore);
+	//iterate and find any overlapping events
+	for (var key in dateStore) {
+	    if (dateStore.hasOwnProperty(key)) {
+		var obj = dateStore[key];
+		console.log("start time (key) = " + key + " assoc arr (obj) = " + obj);
+		len = obj.length;
+		for (var i=0; i< len; i++) {
+		    console.log("obj["+i+"] = " + obj[i]);
+		    /*
+		    innerlen = len[i].length;
+		    for (var j=0; j<innerlen; j++) {
+			console.log("obj["+i+"]["+j+"] = " + obj[i][j]);
+		    }*/
 		}
 	    }
 	}
-
     }
     
   
     //public
     this.eventCounter = 0;
-   
+
     //add an event to the calendar
     this.addEvent = function(e) {
-	if (!invertedIndex[e.start]) {
-	    invertedIndex[e.start] = [];
+	if (!dateStore[e.start]) {
+	    dateStore[e.start] = [];
 	}
-	invertedIndex[e.start].push(this.eventCounter);
+	temp = [this.eventCounter, e.end]
+	dateStore[e.start].push(temp);
 	
 	//create div from event
 	createDiv(e);
     }
 
     this.getIndex = function() {
-	return invertedIndex;
+	return dateStore;
     }
 
 
@@ -64,6 +66,6 @@ function layOutDay(events) {
 	cal.eventCounter++;
     });
 
-    console.log(cal.getIndex());
+    //console.log(cal.getIndex());
 
 }
