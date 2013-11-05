@@ -3,8 +3,6 @@ body {
     font-size: 10px;
 }
 
-
-
 .header {
     background-color: #3b5998;
     //background-color: rgba(0, 39, 121, .76);
@@ -65,12 +63,13 @@ body {
         
 }
 
-.wrapper .calendar .calendar-container {
+/*
+ .wrapper .calendar .calendar-container {
     margin: 0 auto;
     width: 95%;
     padding: 0px 10px;
 }
-
+*/
 .wrapper .calendar .event {
     background: #FFFFFF;
     border-style: solid solid solid none;
@@ -83,8 +82,10 @@ body {
     box-shadow: 5px 0 0px #3b5998 inset;
     -webkit-box-shadow: 5px 0 0px #3b5998 inset;
     -moz-box-shadow: 5px 0 0px #3b5998 inset;
+    position: absolute;
 }
 
+/*
 .wrapper .calendar .event.full {
     width: 100%;
 }
@@ -92,7 +93,7 @@ body {
 .wrapper .calendar .event.split {
     width: 50%;
 }
-
+*/
 .wrapper .calendar .event .event-contents {
     padding: 10px 10px;
 }
