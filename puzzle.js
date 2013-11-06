@@ -38,11 +38,11 @@ var Calendar = Calendar || function () {
 	return 0;
     }
 
-    function createDiv(e) {
-	//console.log(dateStore);
-	//iterate and find any overlapping events
+    function findOverLappingElements(e) {
+	var results = [];
+	var overlapCount=0;
 	var overlappingElements = [];
-	var overlapCount = 0;
+	console.log(dateStore);
 	for (var key in dateStore) {
 	    if (dateStore.hasOwnProperty(key)) {
 		var obj = dateStore[key];
@@ -51,24 +51,49 @@ var Calendar = Calendar || function () {
 		for (var i=0; i< len; i++) {
 		    var id = obj[i][0];
 		    var end = obj[i][1];
-		    //var currOverlapCount = obj[i][2];
-		    
+
 		    if ((e.start < key && e.end > end) || ((e.start >= key) && (e.start < end)) || ((e.end >key) && (e.end <= end))) {
 			console.log("overlap!\n"+JSON.stringify(obj)+"\n"+JSON.stringify(e)+"\n");
 			//we'll draw the events based on the toal width / this value
 			overlapCount++; 
 			//currOverlapCount++;
 			overlappingElements.push(obj[i]);
-
 		    }
-
-		    //[unique iD, end time, split count]
 		}
 	    }
 	}
 
-	console.log("# events = " + self.eventCounter);
-	temp = [self.eventCounter, e.end, overlapCount]
+	results.push(overlapCount);
+	results.push(overlappingElements);
+	return results;
+    }
+
+    function calendarEvent(e) {
+	this.e = e;
+    }
+
+    function getEventsToRight(e, overlappingElements, overlapCount) {
+	//console.log("get events right of " + e);
+	for (var x=0; x<overlappingElements.length; x++) {
+	    //console.log("["+overlappingElements[x]+"]");
+	}
+    }
+
+    function createDiv(e) {
+	//console.log(dateStore);
+	//iterate and find any overlapping events
+	//var newEvent = new calendarEvent(e);
+	//console.log("new event obj = " + JSON.stringify(newEvent));
+	var overlap = findOverLappingElements(e);
+	var overlappingElements = overlap[1];
+	var overlapCount = overlap[0];
+	var eventsToRight = getEventsToRight(e, overlappingElements, overlapCount);
+	
+
+	//console.log("overlap elements = " + overlappingElements);
+	//console.log("overlap count = " + overlapCount);
+	//console.log("# events = " + self.eventCounter);
+	var temp = [self.eventCounter, e.end, overlapCount, eventsToRight]
 	/*
 	if (overlapCount > 0) {
 	    console.log("pushing"+temp);
@@ -78,13 +103,12 @@ var Calendar = Calendar || function () {
 	console.log("this finna be pushed = " + temp);
 	dateStore[e.start].push(temp);
     
-	if (overlappingElements.length > 0) {
-	    resizeDivs(overlapCount, overlappingElements);
-	}
+	resizeDivs(overlapCount, overlappingElements);
 	drawDiv(e,overlapCount, overlappingElements);
     }
 
     function resizeDivs(overlapCount, overlappingElements) {
+	if (overlappingElements.length <= 0) return;
 	console.log(overlappingElements);
 	console.log("overlapping elements:\n")
 	for (var x=0; x<overlappingElements.length; x++) {
@@ -111,6 +135,7 @@ var Calendar = Calendar || function () {
 
     function drawDiv(e, overlapCount, overlappingElements) {
 	var maxOverlap = maxOverlapCount(overlappingElements);
+	console.log("max overlap count = " + maxOverlap);
 	console.log("overlap count = " + overlapCount);
 	var newEventDiv = document.createElement('div');
 	newEventDiv.className = 'event';
@@ -197,6 +222,8 @@ function layOutDay(events) {
     //iterate over every event
     events.forEach(function(e){
 	//validate input
+	
+	// find overlap
 	
 	// 
 	cal.addEvent(e);	
