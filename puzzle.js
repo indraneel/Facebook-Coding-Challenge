@@ -47,7 +47,7 @@ var Calendar = Calendar || function () {
 	    if (dateStore.hasOwnProperty(key)) {
 		var obj = dateStore[key];
 		//console.log("start time (key) = " + key + " assoc arr (obj) = " + obj);
-		len = obj.length;
+		var len = obj.length;
 		for (var i=0; i< len; i++) {
 		    var id = obj[i][0];
 		    var end = obj[i][1];
@@ -73,10 +73,16 @@ var Calendar = Calendar || function () {
     }
 
     function getEventsToRight(e, overlappingElements, overlapCount) {
+	result = [];
 	//console.log("get events right of " + e);
 	for (var x=0; x<overlappingElements.length; x++) {
 	    //console.log("["+overlappingElements[x]+"]");
+	    if (overlapCount <= overlappingElements[x][2]) {
+		console.log("to the right of " + JSON.stringify(e) + " lies [" + overlappingElements[x]+"]");
+		result.push(overlappingElements[x]);	
+	    }
 	}
+	return result;
     }
 
     function createDiv(e) {
@@ -103,18 +109,19 @@ var Calendar = Calendar || function () {
 	console.log("this finna be pushed = " + temp);
 	dateStore[e.start].push(temp);
     
-	resizeDivs(overlapCount, overlappingElements);
+	resizeDivs(overlapCount, overlappingElements, eventsToRight);
 	drawDiv(e,overlapCount, overlappingElements);
     }
 
-    function resizeDivs(overlapCount, overlappingElements) {
+    function resizeDivs(overlapCount, overlappingElements, right) {
 	if (overlappingElements.length <= 0) return;
+	var maxOverlap = maxOverlapCount(overlappingElements);
 	console.log(overlappingElements);
 	console.log("overlapping elements:\n")
 	for (var x=0; x<overlappingElements.length; x++) {
 	    console.log("["+overlappingElements[x]+"]");
 	    //get each one
-	    if (overlapCount > overlappingElements[x][2]) {
+	    if (overlapCount === 1+overlappingElements[x][2]) {
 		console.log("what the fuck is overlap count of new = " + overlapCount);
 		console.log("what the fuck is overlap count of old = " + overlappingElements[x][2]);
 		var newWidth = (self.maxWidth/(overlapCount+1))-1;
@@ -126,11 +133,30 @@ var Calendar = Calendar || function () {
 		    $('#'+overlappingElements[x][0]).css("left",newLeft);
 		}
 	    }
-	    //var currElement = $('#'+overlappingElements[x][0]);
-	    //console.log(currElement);
-	    //alter its size
+	    else if (overlapCount > maxOverlap) {
+		var newWidth = (self.maxWidth/(maxOverlap+1+1))-1;
+		$('#'+overlappingElements[x][0]).css("width",newWidth);
+		if (overlappingElements[x][2]> 0) {
+		    var newLeft = ((1+newWidth)*(overlappingElements[x][2]+1)+10);
+		    console.log("newleft = " + newLeft);
+		    $('#'+overlappingElements[x][0]).css("left",newLeft);
+		}
+	    }
+	    else {
+		for (var y = 0; y<right.length; y++) {
+		    if (right[y] === overlappingElements[x]) {
+			return;
+		    }
+		}
+		var newWidth = (self.maxWidth/(maxOverlap+1+1))-1;
+		$('#'+overlappingElements[x][0]).css("width",newWidth);
+	    }
 	}
 	console.log("\n");
+    }
+
+    function getColumnOffset(e, rightArr, overlapArr) {
+
     }
 
     function drawDiv(e, overlapCount, overlappingElements) {
@@ -141,18 +167,30 @@ var Calendar = Calendar || function () {
 	newEventDiv.className = 'event';
 	newEventDiv.id= self.eventCounter;
 	var styleString = "";
-	if (overlapCount > maxOverlap) {
+	if (overlapCount ===  1+maxOverlap) {
+	    console.log("overlapCount = " + overlapCount + " maxOverlap = " + maxOverlap + " | former > latter");
 	    styleString += "top:"+e.start+"px;";
-	    styleString += "width:"+(self.maxWidth/(overlapCount+1)-1)+"px;";
+	    styleString += "width:"+((self.maxWidth/(overlapCount+1))-1)+"px;";
 	    styleString += "height:"+((e.end-e.start)-2)+"px;";
 	    if (overlapCount > 0) {
 		styleString += "left:"+((self.maxWidth/(overlapCount+1))+10)+"px;";
 	    }
 	}
+	else if (overlapCount > maxOverlap) {
+	    styleString += "top:"+e.start+"px;";
+	    styleString += "width:"+(self.maxWidth/(maxOverlap+1+1)-1)+"px;";
+	    styleString += "height:"+((e.end-e.start)-2)+"px;";
+	    if (overlapCount > 0) {
+		styleString += "left:"+((self.maxWidth/(maxOverlap+1+1))+10)+"px;";
+	    }
+	    
+	}
 	else {
+	    console.log("overlapCount = " + overlapCount + " maxOverlap = " + maxOverlap + " | former < latter");
 	    styleString += "top:"+e.start+"px;";
 	    styleString += "width:"+(self.maxWidth/(maxOverlap+1)-1)+"px;";
 	    styleString += "height:"+((e.end-e.start)-2)+"px;";
+	    styleString += "left:10px;";
 	}
 	newEventDiv.style.cssText = styleString;
 	console.log("new event div");
@@ -208,6 +246,10 @@ var Calendar = Calendar || function () {
 
     this.deleteEvent = function(id) {
 	deleteEventFromStore(id);
+	
+    }
+
+    this.deleteAll = function() {
 	
     }
 
